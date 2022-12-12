@@ -21,6 +21,8 @@ class _NewTransactionState extends State<NewTransaction> {
   final amountController = TextEditingController();
   DateTime? _selectedDate;
 
+  var _dateString = 'No date choosen';
+
   _NewTransactionState() {
     print('constructor new transactiopn state');
   }
@@ -51,6 +53,12 @@ class _NewTransactionState extends State<NewTransaction> {
         return;
       }
       _selectedDate = pickedDate;
+      if (_selectedDate != null) {
+        final formatter = DateFormat.yMMMMd();
+        setState(() {
+          _dateString = formatter.format(_selectedDate!);
+        });
+      }
     });
   }
 
@@ -82,9 +90,7 @@ class _NewTransactionState extends State<NewTransaction> {
               height: 70,
               child: Row(
                 children: <Widget>[
-                  Text(_selectedDate == null
-                      ? 'No date choosen'
-                      : '\Picked Date: ${DateFormat.yMd().format(_selectedDate!).toString()}'),
+                  Text(_dateString),
                   Expanded(
                     child:
                         AdaptiveFlatButton('Choose Date', _presentDatePicker),
